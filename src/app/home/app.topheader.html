@@ -1,0 +1,76 @@
+<header id="main-header">
+  <!--Navigation-->
+  <nav class="navbar navbar-default navbar-static-top" id="nav-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand overlay-header-logo" href="#home"> 
+                    <img src="assets/images/logo-hor.svg" alt="logo" role="banner" style="width: 180px;">
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navigation-menu">
+
+                <ul class="nav navbar-nav">
+                    <li><a [routerLinkActive]="['active']" routerLink="/home">Home</a></li>
+                    <li><a [routerLinkActive]="['active']" routerLink="/events">Events</a></li>
+                    <li><a [routerLinkActive]="['active']" routerLink="/workshops">Workshops</a></li>
+                    <li><a [routerLinkActive]="['active']" routerLink="/guestlectures">Guest Lectures</a></li>
+                    <li><a [routerLinkActive]="['active']" routerLink="/workforus">Work for us</a></li>
+                    <li class="active"><a [routerLinkActive]="['active']" routerLink="/getapp">Download App</a></li>
+                    <li><a [routerLinkActive]="['active']" routerLink="/aboutus">About Us</a></li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a [routerLinkActive]="['active']" routerLink="/contact">Contact</a>
+                    </li>
+                    <li *ngIf="!isLoggedIn" class="item-wrap">
+                        <a [routerLinkActive]="['active']" routerLink="/login">Sign in</a>
+                    </li>
+                    <li *ngIf="isLoggedIn" class="item-wrap">
+                        <a style="cursor:pointer;" (click)="dashboard()">Dashboard</a>
+                    </li>
+                    <li *ngIf="isLoggedIn" (click)="logout()" class="home-logout">
+                        <i class="fa fa-sign-out" aria-hidden="true"></i>
+                    </li>
+                </ul>
+            </div>
+        </div>
+  </nav>
+  <!--/ Navigation-->
+</header>
+
+<!-- 
+
+<header id="main-header">
+    <div class="navbar">
+        <nav id="nav-wrap">
+            <a class="mobile-btn" href="#nav-wrap" title="Show navigation">
+                <span class="menu-icon">Menu</span>
+            </a>
+            <a class="mobile-btn" href="#" title="Hide navigation">
+                <span class="menu-icon">Menu</span>
+            </a>
+            <ul id="nav" class="nav">
+                <li><a style="border-radius: 0px;"  class="smoothscroll" [routerLinkActive]="['active']" routerLink="/home"><i class="fa fa-home m-r-sm"></i>Home</a></li>
+                <li><a  style="border-radius: 0px;" [routerLinkActive]="['active']" routerLink="/events">Events</a></li>
+                <li><a style="border-radius: 0px;"  [routerLinkActive]="['active']" routerLink="/workshops">Workshops</a></li>
+                <li><a style="border-radius: 0px;"  [routerLinkActive]="['active']" routerLink="/guestlectures">Guest Lectures</a></li>
+                <li><a style="border-radius: 0px;"  [routerLinkActive]="['active']" routerLink="/workforus">Work for us</a></li>
+                <li><a style="border-radius: 0px;"  [routerLinkActive]="['active']" routerLink="/getapp">Download App</a></li>
+                <li><a  style="border-radius: 0px;" [routerLinkActive]="['active']" routerLink="/aboutus">About Us</a></li>
+                <li *ngIf="isLoggedIn" (click)="logout()" class="nav-right home-logout"><i class="fa fa-sign-out" aria-hidden="true"></i></li>
+                <li class="nav-right"><a class="smoothscroll" [routerLinkActive]="['active']" routerLink="/contact">Contact</a></li>
+                <li *ngIf="!isLoggedIn" class="nav-right redbox item-wrap"><a style="border-radius: 0px;" [routerLinkActive]="['active']" routerLink="/login">Sign in</a></li>
+                <li *ngIf="isLoggedIn" class="nav-right redbox item-wrap"><a style="cursor:pointer;" (click)="dashboard()">Dashboard</a></li>
+
+            </ul>
+        </nav>
+    </div>
+</header>
+-->

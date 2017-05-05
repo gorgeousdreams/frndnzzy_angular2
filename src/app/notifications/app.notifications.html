@@ -1,0 +1,107 @@
+<div style="    margin-left: -35px;">
+	<ol class="breadcrumb bread-primary " style="background-color: #FFF;    margin-left: 0px;">
+		<li><a style="color:#333;"><i class="fa fa-bell-o" aria-hidden="true" style="margin-right:10px;"></i>Notifications</a></li>
+		<li><a>Send Notification <i class="glyphicon glyphicon-menu-right"></i></a></li>
+	</ol>
+</div>
+<div class="form-group col-md-12 ">
+	<div class="form-group col-md-6 " style="margin-right: 25px; background-color: #ECECEC;    border-radius: 5px;    border: 1px solid #d8d7d7">
+		<form #formRef="ngForm" (ngSubmit)="onSubmit(formRef.value)">
+			<div>
+				<br style="clear:both">
+
+				<div class="row">
+					<div class="col-md-6">
+						<select id="dept_id" name="dept_id" [(ngModel)]="model.dept_id" class="form-control" 
+							style="width:100%;height:35px;margin-right:10px;" (change)="onDepartmentSelect($event.target.value)">
+			                <option value="0">All Departments</option>            
+			                <option *ngFor="let res of result" value="{{res.department_id}}">
+								{{res.department_title}}
+							</option>
+            			</select>
+					</div>
+					<div class="col-md-6">
+						<select id="year" name="year" [(ngModel)]="model.year" class="form-control" required 
+							style="width:100%;height:35px;margin-right:10px;" (change)="onYearSelect($event.target.value)">
+			                <option *ngIf="userData.access_permission_info.can_notify_all_students == 1" value="0">All Years</option>
+			                <option *ngIf="userData.access_permission_info.can_notify_all_students == 0" value="-1">Year</option>
+							<option *ngFor="let year of years" value="{{year}}">
+								{{year}}
+							</option>
+			            </select>
+					</div>
+				</div>
+				<div class="row" style="padding:15px;padding-bottom:0px;">
+					<select id="section" name="section_id" [(ngModel)]="model.section_id" class="form-control" 
+						style="width:100%;height:35px;margin-right:10px;margin-bottom:16px;" required 
+						(change)="onSectionSelect(model.dept_id,$event.target.value,model.year)" >
+		                <option value="0">All Sections</option>
+						<option *ngFor="let section of filteredSections" value="{{section.id}}">
+							{{section.name}}
+						</option>
+		            </select>
+
+		            <select multiple id="student" name="student" [(ngModel)]="model.student" class="form-control" 
+						style="width:100%;height:70px;margin-right:10px;">
+		                <option *ngIf="userData.access_permission_info.can_notify_all_students == 1" value="-1">All Students</option>
+		                <option value="0">Select All</option>
+						<option *ngFor="let student of students" value="{{student.id}}">
+							{{student.name}}
+						</option>
+		            </select>
+				</div>
+				<div class="row" style="padding:15px;padding-bottom:0px;">
+					<input id="title" [(ngModel)]="model.title" name="title" style="font-size:15px;color:#666;background-color:#fff;padding-left:10px;"
+						class="form-control input-sm " type="text" id="title" placeholder="Type your notification title here..." required />
+					<textarea [(ngModel)]="model.message" id="message" name="message" style="min-height: 100px;font-size:15px;color:#666;" class="form-control input-sm "
+						type="textarea" id="message" placeholder="Type your notification here..." maxlength="300" rows="3" required></textarea>
+					<span class="help-block"><p id="characterLeft" class="help-block ">You have reached the limit</p></span>
+				</div>
+
+				<div class="row" style="padding:15px;padding-top:0px;">
+					<div>
+						<label style="font-weight:normal;cursor:pointer;">
+                    <input type="radio" [(ngModel)]="model.priority" name="priority" id="normal" value="0" checked> Normal Priority
+                    </label>
+						<label style="font-weight:normal;cursor:pointer;">
+                    <input style="margin-left:15px;" [(ngModel)]="model.priority" type="radio" name="priority" id="imp" value="1"> Important
+                    </label>
+					</div>
+					<div id="upload-div">
+						<label class="control-label">Attatch a file</label>
+					 	<input type="file" id="uploadCaptureInputFile" ngFileSelect [options]="options" (onUpload)="handleUpload($event);" accept=".xls, .xlsx, .pdf, .doc, .docx, .jpg, .png, .jpeg, .gif, .ppt, .gif, .pptx, .csv">
+					</div>
+					<div *ngIf="response">
+					  <p style="margin-top:10px;color:blue">{{ response.message}}</p>
+					</div>
+				</div>
+				<div class="form-group col-md-6" style="float: left;    padding-left: 0px;">
+					<!--<input style="float:left;font-size:15px;" type="file" ngFileSelect [options]="basicOptions" (onUpload)="handleUpload($event)">-->
+				</div>
+				<br style="clear:both">
+				<!-- <div class="form-group col-md-6" style="float: left;padding-left: 0px;">
+					{{apiurl}}
+				</div> -->
+				<div class="form-group col-md-6" style="float: right;">
+					<button class="form-control input-sm btn btn-success" id="btnSubmit" name="btnSubmit" type="submit" style="height:35px;float:right;width:150px;"> Send</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="form-group" style="margin-bottom: 0px;">
+
+
+	</div>
+	<div class="form-group col-md-4">
+		<div class="formlabel" style="padding:15px;padding-top:0px;text-align: left;font-weight:bold;">PREVIEW</div>
+		<div style="background-image: url('assets/images/preview.png');background-repeat:no-repeat;  background-size: 275px 550px;height:550px;">
+			<div style="word-wrap: break-word;width: 275px;padding-top: 190px;padding-left: 40px;position:absolute;"> {{userData.college_info.college_name}}</div>
+			<div style="word-wrap: break-word;width: 245px;padding-top: 225px;padding-left: 25px;position:absolute;font-size: 12px;">
+				{{model.message}}</div>
+			<div style="word-wrap: break-word;width: 275px;padding-top: 402px;padding-left: 82px;position:absolute;"> {{userData.user_account_info.firstname}} {{userData.user_account_info.lastname}} </div>
+			<div style="word-wrap: break-word;width: 300px;padding-top: 410px;padding-left: 100px;position:absolute;    padding-left: 215px;">
+				<img style="    width: 38px;border-radius: 50px;" src="{{userData.user_account_info.profile_pic}}" /></div>
+		</div>
+	</div>
+</div>
+<!--<div style="font-family: 'raleway-semibold', sans-serif;margin-top:300px;text-align:center;">Preview goes here!</div>-->

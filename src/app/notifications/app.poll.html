@@ -1,0 +1,90 @@
+<div style="    margin-left: -35px;">
+	<ol class="breadcrumb bread-primary " style="background-color: #FFF;    margin-left: 0px;">
+		<li><a style="color:#333;"><i class="fa fa-bell-o" aria-hidden="true" style="margin-right:10px;"></i>Notifications</a></li>
+		<li><a>Create Poll <i class="glyphicon glyphicon-menu-right"></i></a></li>
+	</ol>
+</div>
+<div class="form-group col-md-12 ">
+	<div class="form-group col-md-10 "  style="    background-color: #ECECEC;    border-radius: 5px;    border: 1px solid #d8d7d7">
+		<form #formRef="ngForm" (ngSubmit)="onSubmit(formRef.value)">
+			<div>
+				<br style="clear:both">
+
+				<div class="row">
+					<div class="col-md-6">
+						<select id="dept_id" name="dept_id" [(ngModel)]="model.dept_id" 
+							class="form-control" style="width:100%;height:35px;margin-right:10px;" 
+							(change)="onDepartmentSelect($event.target.value)" >
+							<option value="0">All Departments</option>            
+							<option *ngFor="let res of result" value="{{res.department_id}}">{{res.department_title}}</option>
+						</select>
+					</div>
+					<div class="col-md-6">
+						<select id="year" name="year" [(ngModel)]="model.year" class="form-control" style="width:100%;height:35px;margin-right:10px;" 
+						(change)="onYearSelect($event.target.value)" required>  
+                <option *ngIf="userData.access_permission_info.can_notify_all_students == 1" value="0">All Students</option>
+                <option *ngFor="let year of years" value="{{year}}">
+					{{year}}
+				</option>
+            </select>
+					</div>
+				</div>
+
+				<!-- Section -->
+				<div class="row" style="margin-top: 10px"> 
+				<div class="col-md-12">
+				<div class="input-group">
+				<select id="section" name="section_id" [(ngModel)]="model.section_id" class="form-control" style="width:100%;height:35px;margin-right:10px;margin-bottom:16px;" required>
+					<option value="0">All Sections</option>
+					<option *ngFor="let section of filteredSections" value="{{section.id}}">
+						{{section.name}}
+					</option>
+				</select>
+				</div>
+				</div>
+				</div>
+
+
+
+				<div class="row" style="padding:15px;padding-top:15px;">
+					<div>
+						<label style="font-weight:normal;cursor:pointer;">
+                    <input type="radio" [(ngModel)]="model.priority" name="priority" id="normal" value="0" checked="checked"> Normal Priority
+                    </label>
+						<label style="font-weight:normal;cursor:pointer;">
+                    <input style="margin-left:15px;" [(ngModel)]="model.priority" type="radio" name="priority" id="imp" value="1"> Important
+                    </label>
+					</div>
+				</div>
+				<div class="row" style="padding:15px;padding-bottom:0px;">
+					<input id="title" [(ngModel)]="model.title" name="title" style="font-size:15px;color:#666;background-color:#fff;padding-left:10px;"
+						class="form-control input-sm " type="text" id="title" placeholder="Type your poll title here..."  required/>
+					<!--<textarea [(ngModel)]="model.message" id="message" name="message" style="min-height: 100px;font-size:15px;color:#666;" class="form-control input-sm "
+						type="textarea" id="message" placeholder="Type your poll message here..." maxlength="600" rows="3"></textarea>-->
+					<!--<span class="help-block"><p id="characterLeft" class="help-block ">You have reached the limit</p></span>-->
+				</div>
+				<div class="row" style="padding:15px;padding-bottom:0px;">
+					<input id="action_question" [(ngModel)]="model.action_question" name="action_question" style="font-size:15px;color:#666;background-color:#fff;padding-left:10px;    margin-bottom: 25px;"
+						class="form-control input-sm " type="text"placeholder="Type your poll question here..."  required/>
+				</div>
+				<button type="button" style="width:120px;height:35px;background-color:#5bc0de;color:#fff" (click)="addChoice()">Add Choice</button>
+				<div *ngFor="let choice of choices" class="row" style="padding:15px;padding-bottom:0px;" class="row">
+					<div class="col-lg-11 col-md-10 col-sm-10 col-xs-8" style="padding:0">
+						<input id="choice.id" [(ngModel)]="choice.name" name="{{choice.id}}" style="font-size:15px;color:#666;background-color:#fff;padding-left:10px;    margin-bottom: 10px;" class="form-control input-sm " type="text" placeholder="choice" [value]="choice.name" required/>
+					</div>
+					<div class="col-lg-1 col-md-2 col-sm-2 col-xs-4" style="padding-left:10px">
+					    <button class="delete"
+					      (click)="delete(choice); $event.stopPropagation()">x</button>
+			        </div>
+
+			  	</div>
+
+				<br style="clear:both">
+				<div class="form-group col-md-6" style="float: right;">
+					<button class="form-control input-sm btn btn-success" id="btnSubmit" name="btnSubmit" type="submit" style="height:35px;float:right;width:150px;"> Send</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<!--<div style="font-family: 'raleway-semibold', sans-serif;margin-top:300px;text-align:center;">Preview goes here!</div>-->
